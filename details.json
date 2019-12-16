@@ -1,0 +1,63 @@
+[
+  {
+    "panel": "has-gills",
+    "text": "Does it have gills?",
+    "buttons": [
+      {
+        "text": "Yes it has gills",
+        "panel": "is-amanita"
+      },
+      {
+        "text": "It has no gills",
+        "panel": ""
+      }
+    ]
+  },
+  {
+    "panel": "is-amanita",
+    "text": "Mature gills are white, pinkish or yellow?",
+    "buttons": [
+      {
+        "text": "Yes",
+        "panel": "amanita"
+      },
+      {
+        "text": "No",
+        "panel": "veil"
+      }
+    ]
+  },
+  {
+    "panel": "amanita",
+    "text": "It's an Amanita",
+    "buttons": []
+  },
+  {
+    "panel": "veil",
+    "text": "Veil ?",
+    "buttons": [
+      {
+        "text": "No Veil, no ring on stalk",
+        "panel": "brittle"
+      },
+      {
+        "text": "Veil ring on stalk",
+        "panel": "spores"
+      }
+    ]
+  },
+  {
+    "panel": "brittle",
+    "text": "Is it brittle?",
+    "buttons": [
+      {
+        "text": "Brittle like chalk",
+        "panel": "has-gills"
+      },
+      {
+        "text": "Does not snap open cleanly",
+        "panel": "has-gills"
+      }
+    ]
+  }
+]

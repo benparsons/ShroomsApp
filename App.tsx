@@ -7,14 +7,20 @@ function getPanelById(id) {
   return panel ? panel : {text:`unknown, can't find${id}`} ;
 }
 
-export default class App extends Component<{}, { panels: object[] }> {
+class Panel {
+  id:string;
+  answer?:string;
+}
+
+export default class App extends Component<{}, { panels: Panel[] }> {
   constructor(props) {
+    const panels:Panel[] = [{"id":"has-gills"}];
     super(props);
-    this.state = {panels: [{"id":"has-gills"}]};
+    this.state = {panels: panels};
   }
   render() {
     console.log(this.state.panels);
-    const currentPanel = this.state.panels[this.state.panels.length-1]
+    const currentPanel = this.state.panels[this.state.panels.length-1];
     var buttons = getPanelById(currentPanel.id).buttons.map((button, index) => {
       return (
         <View
@@ -23,7 +29,7 @@ export default class App extends Component<{}, { panels: object[] }> {
           <Button
             title={button.text}
             onPress={() => {
-              var newPanels = this.state.panels;
+              var newPanels = this.state.panels as Panel[];
               const previous = newPanels.pop();
               previous.answer = index;
               newPanels.push(previous);

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button, ScrollView, TouchableOpacity } from 'react-native';
 const details = require("./details.json");
 
-function getPanelById(id) {
+function getPanelById(id):Panel {
   const panel = details.find(p => p.panel === id)
   return panel ? panel : {text:`unknown, can't find${id}`} ;
 }

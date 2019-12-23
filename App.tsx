@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button, ScrollView, TouchableOpacity } from 'react-native';
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
 const details = require("./details.json");
 
 function getPanelById(id):Panel {
@@ -12,7 +14,7 @@ class Panel {
   answer?:string;
 }
 
-export default class App extends Component<{}, { panels: Panel[] }> {
+class IndentifyScreen extends Component<{}, { panels: Panel[] }> {
   constructor(props) {
     const panels:Panel[] = [{"id":"has-gills"}];
     super(props);
@@ -55,7 +57,10 @@ export default class App extends Component<{}, { panels: Panel[] }> {
     return (
       <ScrollView>
         <View style={styles.container}>
-          <Button title="bump"></Button>
+          <Button
+            title="Go to Details"
+            onPress={() => this.props.navigation.navigate('Details')}
+          />
           <Button
             title="Back"
             onPress={() => {
@@ -73,6 +78,37 @@ export default class App extends Component<{}, { panels: Panel[] }> {
   }
 }
 
+class DetailsScreen extends React.Component {
+  render() {
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text>Details Screen</Text>
+      </View>
+    );
+  }
+}
+
+const AppNavigator = createStackNavigator(
+  {
+    Home: {
+      screen: IndentifyScreen,
+    },
+    Details: {
+      screen: DetailsScreen,
+    },
+  },
+  {
+    initialRouteName: 'Home',
+  }
+);
+
+const AppContainer = createAppContainer(AppNavigator);
+
+export default class App extends React.Component {
+  render() {
+    return <AppContainer />;
+  }
+}
 //{
 //  "panel": "",
 //  "text": "",

@@ -1,28 +1,33 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button, ScrollView, TouchableOpacity } from 'react-native';
 import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+
 const details = require("./details.json");
 
-function getPanelById(id):Panel {
+function getPanelById(id): Panel {
   const panel = details.find(p => p.panel === id)
-  return panel ? panel : {text:`unknown, can't find${id}`} ;
+  return panel ? panel : { text: `unknown, can't find${id}` };
 }
 
 class Panel {
-  id:string;
-  answer?:string;
+  id: string;
+  answer?: string;
 }
 
 class IndentifyScreen extends Component<{}, { panels: Panel[] }> {
+  static navigationOptions = {
+    title: 'Indentify',
+  };
+
   constructor(props) {
-    const panels:Panel[] = [{"id":"has-gills"}];
+    const panels: Panel[] = [{ "id": "has-gills" }];
     super(props);
-    this.state = {panels: panels};
+    this.state = { panels: panels };
   }
   render() {
     console.log(this.state.panels);
-    const currentPanel = this.state.panels[this.state.panels.length-1];
+    const currentPanel = this.state.panels[this.state.panels.length - 1];
     var buttons = getPanelById(currentPanel.id).buttons.map((button, index) => {
       return (
         <View
@@ -35,21 +40,21 @@ class IndentifyScreen extends Component<{}, { panels: Panel[] }> {
               const previous = newPanels.pop();
               previous.answer = index;
               newPanels.push(previous);
-              newPanels.push({id: button.panel});
-              this.setState({panels: newPanels});
+              newPanels.push({ id: button.panel });
+              this.setState({ panels: newPanels });
             }}
           />
         </View>
-        )
+      )
     });
     var answers = this.state.panels.map(panel => {
-      return(
-        panel != this.state.panels[this.state.panels.length-1] &&
+      return (
+        panel != this.state.panels[this.state.panels.length - 1] &&
         <TouchableOpacity style={styles.container}
-        onPress={(e) => {
-          alert(panel);
-        }}
-        key={panel.id}>
+          onPress={(e) => {
+            alert(panel);
+          }}
+          key={panel.id}>
           <Text>{getPanelById(panel.id).text}</Text>
           <Text>{getPanelById(panel.id).buttons[panel.answer].text}</Text>
         </TouchableOpacity>)
@@ -66,7 +71,7 @@ class IndentifyScreen extends Component<{}, { panels: Panel[] }> {
             onPress={() => {
               var newPanels = this.state.panels;
               newPanels.pop();
-              this.setState({panels: newPanels});
+              this.setState({ panels: newPanels });
             }}
           />
         </View>
@@ -79,6 +84,10 @@ class IndentifyScreen extends Component<{}, { panels: Panel[] }> {
 }
 
 class DetailsScreen extends React.Component {
+  static navigationOptions = {
+    title: 'Details',
+  };
+
   render() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -88,21 +97,23 @@ class DetailsScreen extends React.Component {
   }
 }
 
-const AppNavigator = createStackNavigator(
-  {
-    Home: {
-      screen: IndentifyScreen,
-    },
-    Details: {
-      screen: DetailsScreen,
-    },
-  },
-  {
-    initialRouteName: 'Home',
-  }
-);
+// const AppNavigator = createStackNavigator({
+//   Home: {
+//     screen: IndentifyScreen,
+//   },
+//   Details: {
+//     screen: DetailsScreen,
+//   },
+// }, {
+//   initialRouteName: 'Home',
+// });
+//const AppContainer = createAppContainer(AppNavigator);
 
-const AppContainer = createAppContainer(AppNavigator);
+const TabNavigator = createBottomTabNavigator({
+  Home: IndentifyScreen,
+  Details: DetailsScreen,
+});
+const AppContainer = createAppContainer(TabNavigator);
 
 export default class App extends React.Component {
   render() {
